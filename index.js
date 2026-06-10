@@ -44,29 +44,8 @@ function finishProgress()
     },500);
     
 }
-//get request for nasa images
-// fetching NASA API Example
-/*const response = await fetch('https://api.nasa.gov', {
-    method: 'GET',
-    headers: {
-        'Content-Type': 'application/json'
-    }
-});*/
-/*fetch(`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`)
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-const data = await response.json();
-    data.forEach((d) => {
-      const option = document.createElement("option");
-      option.value = d.id;
-      option.textContent = d.name;
-      //breedSelect.appendChild(option);
-    });
 
-//const data = await response.json();
-console.log(data);
-//retrieve data from the API*/
+//----------------------retrieve data from the API-------------------------*/
 
 
 //------------Main Function to fetch APODS--------
