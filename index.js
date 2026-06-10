@@ -33,7 +33,7 @@ function startProgress(){
  }
 },120);
 }
-//-----------Progress Bar finish------------
+//---------------------------------Progress Bar finish------------
 function finishProgress()
 {
   clearInterval(progressInterval);
@@ -57,27 +57,7 @@ try{
     //let url=`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`;
     startProgress();
     const data=await getApod(selectedDate);
-   /* if(selectedDate){
-
-      url+=`&date=${selectedDate}`;
-    }
-    console.log("Request URL:",url);
-
-    const response= await axios.get(url,
-    {
-      onDownloadProgress:updateProgress
-    });
-    const data=response.data;
-
-
-
-
-        /*const title = data['title'];
-        const imageUrl = data['url'];
-        const media_type=data['media_type'];
-        console.log(`Title: ${title}`);
-        console.log(`Image URL: ${imageUrl}`);*/
-
+   
 /*-----------------APOD media check----------------------------------------*/
         if(data.media_type === "image") {           //If display is image
           display.innerHTML = `
@@ -100,7 +80,7 @@ try{
           `;
         }
         finishProgress();
-       }catch(error)
+    }catch(error)
          {
           console.error(error);
           finishProgress();
