@@ -15,7 +15,11 @@ if(!display||!progressBar||!btn)
 
 //------------------Event Listeners------------
 btn.addEventListener("click",loadApod);
-window.addEventListener("DOMContentLoaded",loadApod);
+window.addEventListener("DOMContentLoaded",() => {
+  const today=new Date().toLocaleDateString("en-CA");
+  dateInput.value=today;
+  loadApod();
+});
 
 let progressInterval;
 //--------Progress Bar---start----------------
@@ -54,12 +58,22 @@ async function loadApod()
 
 try{
     const selectedDate=dateInput.value;
+    if(!selectedDate)
+    {
+      display.innerHTML=`<p class="errText">Please choose a date first</p>`
+      finishProgress();
+      return;
+    }
     //let url=`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`;
     startProgress();
+    display.innerHTML=`<p> Loading space Data....🚀</p>`
     const data=await getApod(selectedDate);
-   
+    if(!data)
+    {
+      throw new Error ("No data received from NASA API");
+    }
 /*-----------------APOD media check----------------------------------------*/
-        if(data.media_type === "image") {           //If display is image
+        if(data?.media_type === "image") {           //If display is image
           display.innerHTML = `
             <h2>${data.title || "Astronomy Picture of the Day"}</h2>
             <p><strong>Date:</strong> ${data.date}</p>
