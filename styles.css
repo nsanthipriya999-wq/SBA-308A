@@ -8,7 +8,7 @@ body {
 #tc,h1,h2
 {
   font-family: 'Orbitron',sans-serif;
-  color:rgb(235, 35, 172);
+  color:rgb(235,35,172);
   letter-spacing: 2px;
 }
 /*-------------------Body-------------------------------------------------*/
@@ -25,10 +25,10 @@ body {
 body::before{
   content: "";
   position: fixed;
+  inset:0;
   top:0;
   left:0;
-  width:30%;
-  height:30%;
+  
   background:rgba(0,0,0,0.6);
   z-index:-1;
 }
@@ -52,7 +52,13 @@ button{
     
   
 }
-
+button:active{
+  transform:scale(0.97);
+}
+button:disabled{
+  opacity:0.6;
+  cursor:not-allowed;
+}
 button:hover{
     background-color: #00d5d5;
 }
@@ -75,30 +81,51 @@ button:hover{
   color:#7dd3fc;
 }
 
-/*-----------------input---------------*/
-input[type="date"]{
-  background-color:rgba(15,23,134,0.85);
-  padding:15px;
-  margin:10px;
-  border-radius:60px;
-  color:rgb(242, 237, 237);
-  outline:solid gold;
-  width:100%;
-  display:flex; 
-  align-content:center; 
-  justify-content:center; 
-  cursor:pointer;
-  border: 1px solid rgba(255,255,255,0.3);
-  backdrop-filter: blur(10px);
-  
+
+/*-------------Date-container---------------*/
+.date-container
+{
+  max-width:350px;
+  margin:auto;
+  position:relative;
 }
 
 
-input[type="date"]::-webkit-calendar-picker-indicator{
-  cursor:pointer;
-  width:36px;
-  height:36px;
+.spaceDate
+{
+
+ background:rgba(17, 78, 222, 0.85);
+ color:white;
+ 
+ border-radius:18px;
+ height:50px;
+ font-size: 16px;
+ padding:10px;
+box-shadow:0 0 10px rgba(56,189,248,0.3);
+transition:0.3s ease;
+border:5px solid gold
 }
+
+.calendar-icon{
+  position:absolute;
+  right:15px;
+  top:50%;
+  transform:translateY(-76%);
+  font-size:24px;
+  pointer-events:none;
+
+}
+.spaceDate:focus{
+  outline:none;
+  border-color:#22d3ee;
+  box-shadow:0 0 18px rgba(34,211,238,0.7);
+}
+.spaceDate::-webkit-calendar-picker-indicator{
+  cursor:pointer;
+  transform:scale(0.56);
+  filter:invert(80%) sepia(40%) saturate(300%) hue-rotate(170deg);
+}
+
 /*...............Error Text...................*/
 .errText{
 
@@ -116,11 +143,18 @@ input[type="date"]::-webkit-calendar-picker-indicator{
 
 /*-------------------card---------------*/
 .card{
-    background:#3b55c8;
-    padding:20px;
-    border-radius:10px;
-    backdrop-filter:blur(5px);
-    animation: fadeIn 0.8s ease backwards;
+    background:rgba(80,40,140,0.75);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,0.1);
+    transition:transform 0.3s ease; 
+    box-shadow: 0.3s ease;
+    color:white;
+  
+}
+
+.card:hover{
+  transform:scale(1.01);
+  box-shadow: 0 0 25px rgba(160,80,255,0.25);
 }
 /*------------Progress Bar------------*/
 .progress-bar-top {
@@ -128,14 +162,15 @@ input[type="date"]::-webkit-calendar-picker-indicator{
   top: 0;
   left: 0;
   width: 0%;
-  height: 6px;
-  background:linear-gradient(90deg,#0e5e4e,#0099ff);
+  height: 10px;
+  background:linear-gradient(90deg,#0fe235,#0099ff);
   transition:width 0.3s ease;
   z-index:99999;
 }
 /*-----------------Responsive----------*/
 @media (max-width: 767px) {
-  .card .img-wrapper {
-    height: 17em;
+  #display img{
+    height:auto;
+    width:100%;
   }
 }

@@ -1,4 +1,4 @@
-import { API_KEY } from "./keys.js";  
+//import { API_KEY } from "./keys.js";  
 import { getApod } from "./Nasa.js";
 
 
@@ -9,7 +9,7 @@ const dateInput=document.getElementById("inputDate");
 const btn=document.getElementById("btn");
 console.log("Progress bar element:", progressBar);
 //-----------------------Safety Check---------
-if(!display||!progressBar||!btn)
+if(!display||!progressBar||!btn||!dateInput)
   console.error("Elements not found");
 
 
@@ -17,6 +17,8 @@ if(!display||!progressBar||!btn)
 btn.addEventListener("click",loadApod);
 window.addEventListener("DOMContentLoaded",() => {
   const today=new Date().toLocaleDateString("en-CA");
+  dateInput.min="1995-06-16";
+  dateInput.max=today;
   dateInput.value=today;
   loadApod();
 });
@@ -55,18 +57,11 @@ function finishProgress()
 //------------Main Function to fetch APODS--------
 async function loadApod()
 {
-
+  btn.disabled=true;                            //disable button
 try{
     const selectedDate=dateInput.value;
-    if(!selectedDate)
-    {
-      display.innerHTML=`<p class="errText">Please choose a date first</p>`
-      finishProgress();
-      return;
-    }
-    //let url=`https://api.nasa.gov/planetary/apod?api_key=${API_KEY}`;
     startProgress();
-    display.innerHTML=`<p> Loading space Data....🚀</p>`
+    display.innerHTML=`<div class="card"><p> Loading space Data....🚀</p></div>`;
     const data=await getApod(selectedDate);
     if(!data)
     {
@@ -74,59 +69,42 @@ try{
     }
 /*-----------------APOD media check----------------------------------------*/
         if(data?.media_type === "image") {           //If display is image
-          display.innerHTML = `
+          display.innerHTML = `<div class="card">
             <h2>${data.title || "Astronomy Picture of the Day"}</h2>
             <p><strong>Date:</strong> ${data.date}</p>
             <img src="${data.url}" alt="${data.title}" 
             width="600" class="img-fluid rounded shadow" />
-            <p>${data.explanation || ""}</p>
+            <p>${data.explanation || ""}</p></div>
           `;
         } else {
 /*------------------------Video display--------------------------------------*/          
-          display.innerHTML = `                       
+          display.innerHTML = `<div class="card">                    
             <h2>${data.title || "Astronomy Picture of the Day"}</h2>
             <p><strong>Date:</strong> ${data.date}</p>
             <p>This APOD is a video:</p>
             <iframe src="${data.url}" 
-            width="100%", height="500" 
+            width="100%"  height="500" 
             allowfullscreen></iframe>
-            <p>${data.explanation || ""}</p>
+            <p>${data.explanation || ""}</p></div>
           `;
         }
-        finishProgress();
+        
     }catch(error)
          {
           console.error(error);
-          finishProgress();
-          display.innerHTML=`<p class="errText">NASA API is currently unavailable.Please try again later`;
+          
+          display.innerHTML=`<p class="errText">NASA API is currently unavailable.Please try again later</p>`;
       
+        }finally{
+          finishProgress();
+          btn.disabled=false;
         }
 
   }
-//MARS Rover Photos
-/*fetch(`https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=latest&api_key=${API_KEY}&page=1`)
-    .then(response => response.json())
-    .then(data => {
-        const images = data['photos'];
-        images.slice(0, 10).forEach(image => {
-            console.log(image['img_src']);
-        });
-    })
-    .catch(error => console.error(error));
-
-    //Earth Observation Images
-    fetch(`https://api.nasa.gov/planetary/earth/assets?lon=-149.99078798245626&lat=61.21887894558012&api_key=${API_KEY}`)
-    .then(response => response.json())
-    .then(data => {
-        const latestImage = data['date'];
-        console.log(`Latest Image: ${latestImage}`);
-    })
-    .catch(error => console.error(error));*/
 
 //-------------Progress Bar---------------------------
-    function updateProgress(e) {
-  /* const loaded=e.loaded;
-   const total=e.total;*/
+  /*  function updateProgress(e) {
+  
   const { loaded, total } = e;
   if (total) {
     console.log("Total is:", total)
@@ -143,7 +121,7 @@ try{
 
 
 //-----Axios Interceptors---------------progress bar------------------
-axios.interceptors.request.use((config) => {
+/*axios.interceptors.request.use((config) => {
   console.log("Request started");
   config.metadata = {
     startTime: new Date()
@@ -181,4 +159,4 @@ axios.interceptors.response.use(
     document.body.style.cursor = "default";
     return Promise.reject(error);
   }
-);
+);*/
