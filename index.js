@@ -1,4 +1,4 @@
-//import { API_KEY } from "./keys.js";  
+
 import { getApod } from "./Nasa.js";
 
 
@@ -8,12 +8,13 @@ const progressBar = document.getElementById("progressBar");
 const dateInput=document.getElementById("inputDate");
 const btn=document.getElementById("btn");
 console.log("Progress bar element:", progressBar);
-//-----------------------Safety Check---------
+
+//-----------------------Safety Check------------------------------------
 if(!display||!progressBar||!btn||!dateInput)
   console.error("Elements not found");
 
 
-//------------------Event Listeners------------
+//------------------Event Listeners-----------------------------------------------
 btn.addEventListener("click",loadApod);
 window.addEventListener("DOMContentLoaded",() => {
   const today=new Date().toLocaleDateString("en-CA");
@@ -22,14 +23,13 @@ window.addEventListener("DOMContentLoaded",() => {
   dateInput.value=today;
   loadApod();
 });
-
 let progressInterval;
-//--------Progress Bar---start----------------
+
+//--------Progress Bar---start------------------------------------------------------------
 function startProgress(){
   let width=0;
   progressBar.style.width = "0%";
   document.body.style.cursor = "progress";
-
   progressInterval=setInterval(()=>
  {
  if (width<85){
@@ -51,10 +51,8 @@ function finishProgress()
     
 }
 
-//----------------------retrieve data from the API-------------------------*/
-
-
-//------------Main Function to fetch APODS--------
+//----------------------retrieve data from the API-------------------------------------------
+//------------Main Function to fetch APODS----------------------------------------------------
 async function loadApod()
 {
   btn.disabled=true;                            //disable button
@@ -102,33 +100,16 @@ try{
 
   }
 
-//-------------Progress Bar---------------------------
-  /*  function updateProgress(e) {
-  
-  const { loaded, total } = e;
-  if (total) {
-    console.log("Total is:", total)
-    const percent = Math.round(loaded * 100 / total);
-    progressBar.style.width = percent + "%";
-    console.log("progress bar:", percent + "%");
-  }
-  else {
-
-    console.log("No total Value,progress loading");    //If no total value ,set the progress bar width at 40%
-    progressBar.style.width = "40%";
-  }
-}
 
 
-//-----Axios Interceptors---------------progress bar------------------
-/*axios.interceptors.request.use((config) => {
+
+//-----Axios Interceptors--for request duration calculation-----------------
+axios.interceptors.request.use((config) => {
   console.log("Request started");
   config.metadata = {
     startTime: new Date()
   }
   console.log("Request started at:", config.metadata.startTime);
-  progressBar.style.width = "0%";
-  document.body.style.cursor = "progress";
   return config;
 });
 
@@ -140,23 +121,12 @@ axios.interceptors.response.use(
       const duration = endTime - response.config.metadata.startTime;
       console.log("Request Duration is:", duration);
     }
-    progressBar.style.width = "100%";
-    setTimeout(() => {
-      progressBar.style.width = "0%";
-    },500);
-    document.body.style.cursor = "default";
     return response;
-
-
   },
 
   (error) => {
     console.log("Request failed",error)
-    progressBar.style.width = "100%";
-    setTimeout(()=>{
-      progressBar.style.width="0%";
-    },500);
-    document.body.style.cursor = "default";
+   
     return Promise.reject(error);
   }
-);*/
+);

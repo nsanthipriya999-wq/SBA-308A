@@ -7,7 +7,7 @@ const APOD_URL="https://api.nasa.gov/planetary/apod";     //API URL
 
 
 //-----------------------------Fetch APOD data using axios---------------------------------
-export async function getApod(date="")                    //defaults to today's date                         //No date today's APOD
+export async function getApod(date="")                    //defaults to today's date                     
 {
     if( date && !/^\d{4}-\d{2}-\d{2}$/.test(date))    //Regex for date validation
     {
